@@ -1,0 +1,50 @@
+<section class="hpad">
+  <form ng-submit="search($storage.q, $storage.limit, $event)">
+    <label>
+      <div><b>Full text query</b></div>
+      <input ng-model="$storage.q">
+    </label>
+    <label>
+      <div><b>Limit</b></div>
+      <input ng-model="$storage.limit" type="number">
+    </label>
+    <label>
+      <div><b>Order by</b></div>
+      <input ng-model="$storage.orderBy">
+    </label>
+    <button>Search</button>
+  </form>
+</section>
+
+<section class="hpad">
+  <table>
+    <thead ng-click="thead($event)">
+      <th key="_score"><i>Score</i></th>
+      <th key="name">Name</th>
+      <th key="description">Description</th>
+      <th key="version">Version</th>
+      <th key="authorString">Author</th>
+      <th key="time.modified">Last modified</th>
+      <th key="keywords">Keywords</th>
+      <th key="github.stargazers">Stargazers</th>
+      <th key="github.subscribers">Subscribers</th>
+      <th key="github.forks">Forks</th>
+      <th key="downloadsPerDay">Avg. downloads / day</th>
+    </thead>
+    <tr ng-repeat="package in packages | orderBy:$storage.orderBy">
+      <td class="nowrap">{{package._score.toFixed(2)}}</td>
+      <td class="nowrap">
+        <a ui-sref="packages.edit({name: package.name})">{{package.name}}</a>
+      </td>
+      <td>{{package.description}}</td>
+      <td class="nowrap">{{package.version}}</td>
+      <td>{{package.authorString}}</td>
+      <td class="nowrap">{{package.time.modified | date:'yyyy-mm-dd'}}</td>
+      <td>{{package.keywords.join(', ')}}</td>
+      <td>{{package.github.stargazers}}</td>
+      <td>{{package.github.subscribers}}</td>
+      <td>{{package.github.forks}}</td>
+      <td>{{package.downloadsPerDay.toFixed(0)}}</td>
+    </tr>
+  </table>
+</section>

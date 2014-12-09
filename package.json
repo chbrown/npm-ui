@@ -1,0 +1,42 @@
+{
+  "name": "npm-ui",
+  "version": "0.4.0",
+  "description": "NPM User Interface",
+  "keywords": [
+    "npm",
+    "node",
+    "package",
+    "manager",
+    "user",
+    "interface",
+    "ui"
+  ],
+  "homepage": "http://github.com/chbrown/npm-ui",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/chbrown/npm-ui.git"
+  },
+  "bin": {
+  },
+  "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
+  "license": "MIT",
+  "dependencies": {
+    "async": "*",
+    "http-enhanced": "*",
+    "JSONStream": "*",
+    "lodash": "*",
+    "loge": "*",
+    "regex-router": "*",
+    "request": "*",
+    "send": "*",
+    "streaming": "*"
+  },
+  "staticPattern": "static/lib/{file}",
+  "staticDependencies": {
+    "angular": "*",
+    "angular-ui-router": "*",
+    "lo-dash": "*",
+    "misc-js": "git://github.com/chbrown/misc-js.git",
+    "ng-storage": "*"
+  }
+}
