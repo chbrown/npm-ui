@@ -1,4 +1,4 @@
-all: static/lib.min.js static/lib.max.js static/site.css
+all: static/lib.min.js static/lib.max.js static/site.css static/favicon.ico
 
 static/site.css: static/site.less
 	lessc $+ | cleancss --keep-line-breaks --skip-advanced -o $@
@@ -13,3 +13,16 @@ static/lib.min.js: $(SCRIPTS:%=static/lib/%.min.js)
 	closure-compiler --language_in ECMASCRIPT5 --warning_level QUIET --js $+ > $@
 static/lib.max.js: $(SCRIPTS:%=static/lib/%.js)
 	cat $+ > $@
+
+static/favicon-32.png: static/favicon-original.png
+	convert $+ -resize 32x32 $@.tmp
+	pngcrush $@.tmp $@
+	rm $@.tmp
+
+static/favicon-16.png: static/favicon-original.png
+	convert $+ -resize 16x16 $@.tmp
+	pngcrush $@.tmp $@
+	rm $@.tmp
+
+static/favicon.ico: static/favicon-16.png static/favicon-32.png
+	convert $+ $@

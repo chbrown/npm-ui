@@ -4,8 +4,8 @@ var JSONStream = require('JSONStream');
 
 var Router = require('regex-router');
 
-var external = require('../external');
-var elasticsearch = require('../elasticsearch');
+var external = require('../../external');
+var elasticsearch = require('../../elasticsearch');
 
 var R = new Router(function(req, res) {
   res.status(404).die('No resource at: ' + req.url);
@@ -22,7 +22,12 @@ R.post('/registry/loadAll', function(req, res) {
       // maybe don't wait for Elasticsearch?
       // inserting them in series is way too slow when streaming from CouchDB due to its ~3min timeout
       // callback(null, obj);
-      elasticsearch.insert('npm', 'packages', chunk.name, chunk, callback);
+      elasticsearch.client.insert({
+        index: 'npm',
+        type: 'packages',
+        id: chunk.name,
+        body: chunk
+      }, callback);
     }
     else {
       callback(null, {_updated: chunk});

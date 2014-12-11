@@ -6,95 +6,91 @@ var app = angular.module('app', [
   'misc-js/angular-plugins',
 ]);
 
-function sum(xs) {
-  var total = 0;
-  for (var i = 0, x; (x = xs[i]) !== undefined; i++) {
-    total += x;
-  }
-  return total;
-}
-
 app.config(function($urlRouterProvider, $stateProvider, $locationProvider) {
-  // The .otherwise() url is evaluated relative the to page's base[href] value,
-  // so it should literally match the url of one of the states below.
   $urlRouterProvider.otherwise('/packages/');
 
   $stateProvider
   .state('packages', {
-    abstract: true,
-    url: '/packages',
-    templateUrl: '/ng/packages/index.html',
+    url: '/packages/',
+    templateUrl: '/ng/packages/table.html',
+    controller: 'packagesTableCtrl',
   })
-  .state('packages.list', {
-    url: '/',
-    templateUrl: '/ng/packages/list.html',
-    controller: 'packages.list',
-  })
-  .state('packages.edit', {
-    url: '/{name}',
-    templateUrl: '/ng/packages/edit.html',
-    controller: 'packages.edit'
+  .state('package', {
+    url: '/packages/{name}',
+    templateUrl: '/ng/packages/detail.html',
+    controller: 'packageDetailCtrl'
   });
 
   $locationProvider.html5Mode(true);
 });
 
+app.run(function($rootScope, $localStorage) {
+  $rootScope.$storage = $localStorage.$default({
+    q: 'npm search ui',
+    size: 100,
+    sort: 'averageDownloadsPerDay',
+    package_history: [],
+  });
+});
+
 app.service('Package', function($resource) {
-  var Package = $resource('/packages/:name', {
+  var Package = $resource('/api/packages/:name', {
     name: '@name',
   });
 
-  Object.defineProperty(Package.prototype, 'version', {
-    get: function() {
-      // simply return the first key in the .versions field
-      for (var key in this.versions) return key;
-    },
-  });
-
-  Object.defineProperty(Package.prototype, 'authorString', {
-    get: function() {
-      // it appears that email is required if url is present
-      // and name is required if email is present
-      var parts = [];
-      if (this.author && this.author.name) parts.push(this.author.name);
-      if (this.author && this.author.email) parts.push('<' + this.author.email + '>');
-      if (this.author && this.author.url) parts.push('(' + this.author.url + ')');
-      return parts.join(' ');
-    },
-  });
-
-  Object.defineProperty(Package.prototype, 'downloadsPerDay', {
-    get: function() {
-      var counts = _.values(this.downloads || {});
-      return sum(counts) / counts.length;
-    },
-  });
+  // Object.defineProperty(Package.prototype, 'authorString', {
+  //   get: function() {
+  //     // it appears that email is required if url is present
+  //     // and name is required if email is present
+  //     var parts = [];
+  //     if (this.author && this.author.name) parts.push(this.author.name);
+  //     if (this.author && this.author.email) parts.push('<' + this.author.email + '>');
+  //     if (this.author && this.author.url) parts.push('(' + this.author.url + ')');
+  //     return parts.join(' ');
+  //   },
+  // });
 
   return Package;
 });
 
-app.controller('packages.list', function($scope, $http, $localStorage, Package) {
-  $scope.$storage = $localStorage.$default({
-    limit: 100,
-    orderBy: '-_score',
-  });
+app.factory('packageHistoryManager', function($localStorage) {
+  // handles manipulating $localStorage.package_history properly
+  return {
+    add: function(package_name) {
+      if ($localStorage.package_history.indexOf(package_name) === -1) {
+        // if it's not already in `package_history`, add it at the beginning
+        $localStorage.package_history.unshift(package_name);
+        // and truncate the resulting array if it's too long
+        $localStorage.package_history.length = Math.min($localStorage.package_history.length, 5);
+      }
+    },
+  };
+});
 
-  $scope.thead = function(ev) {
-    var key = ev.target.getAttribute('key');
-    if (key) {
-      $scope.$storage.orderBy = key;
-    }
+
+app.controller('packagesTableCtrl', function($scope, $http, $localStorage, Package) {
+  // $scope.thead = function(ev) {
+  //   var key = ev.target.getAttribute('key');
+  //   if (key) {
+  //     $scope.$storage.orderBy = key;
+  //   }
+  // };
+
+  $scope.refresh = function() {
+    $scope.packages = Package.query({
+      q: $scope.$storage.q,
+      size: $scope.$storage.size,
+      sort: $scope.$storage.sort,
+    });
   };
 
-  $scope.search = function(q, limit, ev) {
-    $scope.packages = Package.query({q: q, limit: limit});
-  };
-
-  $scope.$watchCollection(['$storage.q', '$storage.limit'], function() {
-    $scope.search($scope.$storage.q, $scope.$storage.limit);
+  $scope.$watchCollection(['$storage.q', '$storage.size', '$storage.sort'], function() {
+    $scope.refresh();
   });
 });
 
-app.controller('packages.edit', function($scope, $state, Package) {
-  $scope.package = Package.get($state.params);
+app.controller('packageDetailCtrl', function($scope, $state, Package, packageHistoryManager) {
+  $scope.package = Package.get({name: $state.params.name});
+
+  packageHistoryManager.add($state.params.name);
 });

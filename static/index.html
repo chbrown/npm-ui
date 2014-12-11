@@ -4,8 +4,16 @@
   <title>NPM User Interface</title>
   <link href="/static/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/static/site.css" rel="stylesheet" type="text/css">
-  <script src="/static/lib.min.js"></script>
+  <script src="/static/lib.max.js"></script>
   <script src="/ng/app.js"></script>
-  <base href="/ui/">
+  <base href="/">
 </head>
-<body ng-app="app" ui-view></body>
+<body ng-app="app">
+  <flash></flash>
+  <nav fixedflow>
+    <a ui-sref-active="current" ui-sref="packages">Packages</a>
+    <a ng-repeat="package_name in $storage.package_history"
+      ui-sref-active="current" ui-sref="package({name: package_name})">{{package_name}}</a>
+  </nav>
+  <ui-view></ui-view>
+</body>

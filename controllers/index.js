@@ -21,7 +21,7 @@ var R = new Router(function(req, res) {
   });
 });
 
-R.any(/^\/registry/, require('./registry'));
-R.any(/^\/packages/, require('./packages'));
+R.any(/^\/api\/registry/, require('./api/registry'));
+R.any(/^\/api\/packages/, require('./api/packages'));
 
 module.exports = R.route.bind(R);

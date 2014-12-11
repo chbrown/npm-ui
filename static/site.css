@@ -1,15 +1,20 @@
-body{margin:0;font-family:Arial,sans-serif;background-color:#FEFEFE}
+body{margin:0}
+table{border-spacing:0;border-collapse:collapse}
+table th,table td{font-size:100%;text-align:left}
 code{font-family:monospace}
-input,button,textarea{box-sizing:border-box}
+input,select,textarea,button{box-sizing:border-box}
+table.fill{width:100%}
+.nowrap{white-space:nowrap}
+body{font:12px Arial,sans-serif;background-color:#FEFEFE}
 section{padding-top:10px;padding-bottom:10px}
 .hpad{padding-left:10px;padding-right:10px}
-.outset-shadow{box-shadow:0 0 5px rgba(0,0,0,.05)}
-.nowrap{white-space:nowrap}
-nav{left:0;right:0;padding:0 3px;font-size:90%;z-index:100;background-color:#DDD}
-nav span,nav a{padding:2px 6px;margin:3px 0 0 0;display:inline-block;vertical-align:middle}
-nav a{background-color:#CCC;border-radius:2px 2px 0 0}
-nav a:hover,nav a.current{background-color:#FEFEFE}
-table{font-size:80%;border-collapse:collapse}
+nav{left:0;right:0;padding:0 21px;background:url(/static/favicon-16.png) 3px 2px no-repeat #444}
+nav span,nav a{padding:3px 6px;margin:0 2px;display:inline-block;vertical-align:middle;background-color:#CCC}
+nav span:hover,nav a:hover,nav span.current,nav a.current{background-color:#FEFEFE}
 table th{border-bottom:1px solid #444}
-table th,table td{text-align:left;vertical-align:top}
+table th,table td{vertical-align:top}
 table td{border-bottom:1px solid #DDD}
+table.fill{width:100%}
+table.fill td:first-child,table.fill th:first-child{padding-left:10px}
+table.fill td:last-child,table.fill th:last-child{padding-right:10px}
+form.search label{display:inline-block}

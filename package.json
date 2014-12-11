@@ -7,6 +7,7 @@
     "node",
     "package",
     "manager",
+    "search",
     "user",
     "interface",
     "ui"
@@ -22,13 +23,14 @@
   "license": "MIT",
   "dependencies": {
     "async": "*",
+    "elasticsearch": "*",
     "http-enhanced": "*",
     "JSONStream": "*",
     "lodash": "*",
     "loge": "*",
     "regex-router": "*",
     "request": "*",
-    "send": "*",
+    "send": "~0.10",
     "streaming": "*"
   },
   "staticPattern": "static/lib/{file}",
