@@ -37,6 +37,12 @@ It also expects a GitHub API token in an environment variable called `GITHUB_TOK
     }
 
 
+## Docker config
+
+    docker run -d --name=elasticsearch -p 9200:9200 -p 9300:9300 dockerfile/elasticsearch
+    docker run -d --name=app -p 80:80 --link=elasticsearch:elasticsearch chbrown/npm-ui
+
+
 ## License
 
 Copyright 2014 Christopher Brown. [MIT Licensed](http://opensource.org/licenses/MIT).
