@@ -13,7 +13,6 @@ var R = new Router(function(req, res) {
 });
 
 function normalizePerson(string) {
-  // console.log('normalizePerson', string);
   var match = string.match(/([^<]+)(?: <([^>]+)>(?: \(([^)]+)\)))?/);
   return {
     name: match[1],
@@ -107,10 +106,10 @@ R.post('/api/registry/loadAll', function(req, res) {
 
   external.npm_registry.all()
   .on('error', function(err) {
-    console.log('request.get error: %j', err);
+    logger.error('request.get error: %j', err);
   })
   .on('end', function() {
-    console.log('request.get end');
+    logger.debug('request.get end');
   })
   .pipe(JSONStream.parse('*'))
   .pipe(new streaming.Filter(hasName))
