@@ -14,6 +14,5 @@ var server = module.exports = http.createServer(function(req, res) {
 });
 
 if (require.main === module) {
-  // port = 0 indicates we should open a random port
-  server.listen(parseInt(process.env.PORT) || 0, process.env.HOSTNAME);
+  server.listen(parseInt(process.env.PORT) || 80, process.env.HOSTNAME);
 }
