@@ -1,6 +1,6 @@
 all: static/lib.min.js static/lib.max.js static/site.css static/favicon.ico
 
-static/site.css: static/site.less
+%.css: %.less
 	lessc $+ | cleancss --keep-line-breaks --skip-advanced -o $@
 
 # Use | (order-only prerequisites) to skip existing files
