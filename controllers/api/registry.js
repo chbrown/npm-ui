@@ -23,18 +23,27 @@ function normalizePerson(string) {
 
 function normalizePackage(obj) {
   // elasticsearch doesn't like how flexible CouchDB can be
+  if (Array.isArray(obj.license)) {
+    obj.license = obj.license[0];
+  }
   if (obj.license && typeof obj.license == 'string') {
     obj.license = {type: obj.license};
   }
+
   if (obj.repository && typeof obj.repository == 'string') {
     obj.repository = {url: obj.repository};
   }
   if (obj.bugs && typeof obj.bugs == 'string') {
     obj.bugs = {url: obj.bugs};
   }
+
+  if (Array.isArray(obj.author)) {
+    obj.author = obj.author[0];
+  }
   if (obj.author && typeof obj.author == 'string') {
     obj.author = normalizePerson(obj.author);
   }
+
   if (obj.contributors && typeof obj.contributors == 'string') {
     obj.contributors = normalizePerson(obj.contributors);
   }
