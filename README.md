@@ -39,8 +39,35 @@ It also expects a GitHub API token in an environment variable called `GITHUB_TOK
 
 ## Docker config
 
-    docker run -d --name=elasticsearch -p 9200:9200 -p 9300:9300 dockerfile/elasticsearch
-    docker run -d --name=app -p 80:80 --link=elasticsearch:elasticsearch chbrown/npm-ui
+    docker run -d --name elasticsearch -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 dockerfile/elasticsearch
+    docker run -d --name app -p 80:80 --link elasticsearch:elasticsearch chbrown/npm-ui
+
+If you want to make sure you're running the latest `npm-ui` image:
+
+    docker pull chbrown/npm-ui
+    docker rm -f app
+    docker run -d --name app -p 80:80 --link elasticsearch:elasticsearch chbrown/npm-ui
+
+
+## [machine](https://github.com/docker/machine) initialization
+
+    alias docker=docker-1.3.1-dev-identity-auth
+    machine create -d digitalocean \
+      --digitalocean-access-token=$DO_TOKEN \
+      --digitalocean-image=docker \
+      --digitalocean-region=nyc3 \
+      --digitalocean-size=512mb \
+      npm-ui
+    export DOCKER_HOST=$(machine url) DOCKER_AUTH=identity
+
+[Adding swap space](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04):
+
+    swapon -s    # check current config
+    #dd if=/dev/zero of=/swapfile bs=1G count=4 # slow! fallocate is better.
+    fallocate -l 4G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
 
 
 ## License
