@@ -1,4 +1,3 @@
-/*jslint node: true */
 var request = require('request');
 
 var NpmRegistry = exports.NpmRegistry = function() {

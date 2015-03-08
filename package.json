@@ -13,13 +13,15 @@
     "ui"
   ],
   "homepage": "http://github.com/chbrown/npm-ui",
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/chbrown/npm-ui.git"
-  },
-  "bin": {},
+  "repository": "git://github.com/chbrown/npm-ui.git",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT",
+  "bin": {
+    "npm-ui": "bin/npm-ui"
+  },
+  "scripts": {
+    "start": "node bin/npm-ui"
+  },
   "dependencies": {
     "async": "*",
     "elasticsearch": "*",
@@ -30,14 +32,18 @@
     "regex-router": "*",
     "request": "*",
     "send": "~0.10",
-    "streaming": "*"
+    "streaming": "*",
+    "yargs": "*"
   },
   "staticPattern": "static/lib/{file}",
   "staticDependencies": {
     "angular": "*",
     "angular-ui-router": "*",
-    "lo-dash": "*",
-    "misc-js": "git://github.com/chbrown/misc-js.git",
+    "lodash": "*",
+    "misc-js": {
+      "url": "git://github.com/chbrown/misc-js.git",
+      "filter": ["angular-plugins.js", "angular-plugins.min.js", "textarea.js", "cookies.js"]
+    },
     "ng-storage": "*"
   }
 }
