@@ -51,14 +51,9 @@ If you want to make sure you're running the latest `npm-ui` image:
 
 ## [machine](https://github.com/docker/machine) initialization
 
-    alias docker=docker-1.3.1-dev-identity-auth
-    machine create -d digitalocean \
-      --digitalocean-access-token=$DO_TOKEN \
-      --digitalocean-image=docker \
-      --digitalocean-region=nyc3 \
-      --digitalocean-size=512mb \
-      npm-ui
-    export DOCKER_HOST=$(machine url) DOCKER_AUTH=identity
+    export DIGITALOCEAN_ACCESS_TOKEN=n0t4ctua11ymydigital0ceant0k3n
+    machine create -d digitalocean --digitalocean-size=512mb npm-ui
+    $(machine env npm-ui)
 
 [Adding swap space](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04):
 
