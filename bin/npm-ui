@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-var path = require('path');
 var logger = require('loge');
 
 var yargs = require('yargs')
