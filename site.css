@@ -1,0 +1,24 @@
+body{margin:0}
+table{border-spacing:0;border-collapse:collapse}
+table td,table th{font-size:100%;text-align:left}
+h1,h2,h3,h4,h5,h6{margin:1ex 0}
+button,div,input,main,nav,section,span,textarea{box-sizing:border-box}
+section{margin-top:5px;margin-bottom:5px;padding-top:5px;padding-bottom:5px}
+.vpad{padding-top:10px;padding-bottom:10px}
+.hpad{padding-left:10px;padding-right:10px}
+table.fill{width:100%}
+table.padded>tbody>tr>td:first-child,table.padded>thead>tr>th:first-child{padding-left:10px}
+table.padded>tbody>tr>td:last-child,table.padded>thead>tr>th:last-child{padding-right:10px}
+table.lined tbody td{border-top:1px solid rgba(0,0,0,.1)}
+table.striped tbody tr:nth-child(odd){background-color:rgba(255,255,255,.5)}
+table.striped tbody tr:nth-child(even){background-color:rgba(0,0,0,.05)}
+body{font:12px Arial,sans-serif;background-color:#FEFEFE}
+code{font-family:monospace}
+table th{border-bottom:1px solid rgba(0,0,0,.5)}
+table td,table th{vertical-align:top}
+.nowrap{white-space:nowrap}
+.numeric{text-align:right}
+nav{left:0;right:0;padding:0 21px;background:url(img/favicon-16.png) 3px 2px no-repeat #444}
+nav .tab{padding:3px 6px;margin:0 2px;display:inline-block;vertical-align:middle;background-color:#CCC}
+nav .tab.current,nav .tab:hover{background-color:#FEFEFE}
+form.search label{display:inline-block}

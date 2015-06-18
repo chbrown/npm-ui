@@ -1,28 +1,33 @@
-all: static/lib.min.js static/lib.max.js static/site.css static/favicon.ico
+BIN := node_modules/.bin
+DTS := lodash/lodash jquery/jquery angularjs/angular angularjs/angular-resource
 
-%.css: %.less
-	lessc $+ | cleancss --keep-line-breaks --skip-advanced -o $@
+all: build/bundle.js site.css img/favicon.ico
+type_declarations: $(DTS:%=type_declarations/DefinitelyTyped/%.d.ts)
 
-# Use | (order-only prerequisites) to skip existing files
-static/lib/%.min.js: | static/lib/%.js
-	ng-annotate -a $| | closure-compiler --language_in ECMASCRIPT5 --warning_level QUIET > $@
+img/favicon-%.png: img/logo.psd
+	# [0] pulls off the composited layer from the original PSD
+	convert $^[0] -resize $*x$* $@
+img/favicon.ico: img/favicon-16.png img/favicon-32.png
+	convert $^ $@
 
-SCRIPTS = angular angular-resource angular-ui-router ngStorage \
-	angular-plugins lodash textarea cookies
-static/lib.min.js: $(SCRIPTS:%=static/lib/%.min.js)
-	closure-compiler --language_in ECMASCRIPT5 --warning_level QUIET --js $+ > $@
-static/lib.max.js: $(SCRIPTS:%=static/lib/%.js)
-	cat $+ > $@
+type_declarations/DefinitelyTyped/%:
+	mkdir -p $(@D)
+	curl -s https://raw.githubusercontent.com/chbrown/DefinitelyTyped/master/$* > $@
 
-static/favicon-32.png: static/favicon-original.png
-	convert $+ -resize 32x32 $@.tmp
-	pngcrush $@.tmp $@
-	rm $@.tmp
+$(BIN)/tsc $(BIN)/browserify $(BIN)/watchify $(BIN)/lessc $(BIN)/cleancss:
+	npm install
 
-static/favicon-16.png: static/favicon-original.png
-	convert $+ -resize 16x16 $@.tmp
-	pngcrush $@.tmp $@
-	rm $@.tmp
+%.js: %.ts type_declarations $(BIN)/tsc
+	$(BIN)/tsc -m commonjs -t ES5 $<
 
-static/favicon.ico: static/favicon-16.png static/favicon-32.png
-	convert $+ $@
+%.css: %.less $(BIN)/lessc $(BIN)/cleancss
+	$(BIN)/lessc $< | $(BIN)/cleancss --keep-line-breaks --skip-advanced -o $@
+
+build/bundle.js: app.js $(BIN)/browserify
+	mkdir -p $(@D)
+	$(BIN)/browserify $< -o $@
+
+dev: $(BIN)/browserify $(BIN)/watchify
+	($(BIN)/tsc -m commonjs -t ES5 -w *.ts & \
+   $(BIN)/watchify app.js -o build/bundle.js -v & \
+   wait)

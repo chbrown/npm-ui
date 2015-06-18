@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>NPM User Interface</title>
+  <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="site.css" rel="stylesheet" type="text/css">
+  <script src="build/bundle.js"></script>
+</head>
+<body ng-app="app">
+  <flash></flash>
+  <nav fixedflow>
+    <span class="tab" ui-sref-active="current">
+      <a ui-sref="packages">Packages</a>
+    </span>
+    <span ng-controller="searchServer" style="float: right">
+      <label>
+        <span style="color: #EEE">Search Server:</span> <input ng-model="searchServer" style="width: 200px">
+      </label>
+    </span>
+  </nav>
+  <ui-view></ui-view>
+</body>

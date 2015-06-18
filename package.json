@@ -16,39 +16,20 @@
   "repository": "git://github.com/chbrown/npm-ui.git",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT",
-  "bin": {
-    "npm-ui": "bin/npm-ui"
-  },
-  "scripts": {
-    "start": "node bin/npm-ui"
-  },
   "dependencies": {
-    "async": "*",
-    "elasticsearch": "*",
-    "http-enhanced": "*",
-    "JSONStream": "*",
-    "lodash": "*",
-    "loge": "*",
-    "regex-router": "*",
-    "request": "*",
-    "send": "~0.10",
-    "streaming": "*",
-    "yargs": "*"
-  },
-  "staticPattern": "static/lib/{file}",
-  "staticDependencies": {
     "angular": "*",
+    "angular-resource": "*",
     "angular-ui-router": "*",
+    "async": "*",
     "lodash": "*",
-    "misc-js": {
-      "url": "git://github.com/chbrown/misc-js.git",
-      "filter": [
-        "angular-plugins.js",
-        "angular-plugins.min.js",
-        "textarea.js",
-        "cookies.js"
-      ]
-    },
-    "ng-storage": "*"
+    "moment": "*",
+    "ngstorage": "gsklee/ngStorage"
+  },
+  "devDependencies": {
+    "browserify": "*",
+    "typescript": "*",
+    "clean-css": "*",
+    "less": "*",
+    "watchify": "*"
   }
 }

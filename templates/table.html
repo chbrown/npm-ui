@@ -5,12 +5,12 @@
       <input ng-model="$storage.q" style="width: 200px">
     </label>
     <label>
-      <div><b>Size</b></div>
-      <input ng-model="$storage.size" type="number">
-    </label>
-    <label>
       <div><b>Sort</b></div>
       <input ng-model="$storage.sort" style="width: 200px">
+    </label>
+    <label>
+      <div><b>Size</b></div>
+      <input ng-model="$storage.size" type="number" style="width: 50px">
     </label>
     <div style="margin: 5px 0">
       <button>Search</button>
@@ -18,7 +18,7 @@
   </form>
 </section>
 
-<table class="fill">
+<table class="fill padded lined striped">
   <thead>
     <th key="_score">Score</th>
     <th key="name">Name</th>
@@ -40,13 +40,13 @@
         style="color: #CB3838; font-size: 80%; font-weight: bold;">npm</a>
     </td>
     <td>{{package.description}}</td>
-    <td class="nowrap">{{package['dist-tags'].latest}}</td>
-    <td>{{package.author.name}}</td>
-    <td class="nowrap">{{package.time.modified | date:'yyyy-MM-dd'}}</td>
+    <td class="nowrap">{{package.latest}}</td>
+    <td>{{package.author.name || package.maintainers[0].name}}</td>
+    <td class="nowrap">{{package.modified | date:'yyyy-MM-dd'}}</td>
     <td>{{package.keywords.join(', ')}}</td>
-    <td>{{package.github.stargazers}}</td>
-    <td>{{package.github.subscribers}}</td>
-    <td>{{package.github.forks}}</td>
-    <td>{{package.averageDownloadsPerDay.toFixed(0)}}</td>
+    <td class="numeric">{{package.github.stargazers}}</td>
+    <td class="numeric">{{package.github.subscribers}}</td>
+    <td class="numeric">{{package.github.forks}}</td>
+    <td class="numeric">{{package.averageDownloadsPerDay.toFixed(0)}}</td>
   </tr>
 </table>
