@@ -12,6 +12,7 @@
     "interface",
     "ui"
   ],
+  "private": true,
   "homepage": "http://github.com/chbrown/npm-ui",
   "repository": "git://github.com/chbrown/npm-ui.git",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
