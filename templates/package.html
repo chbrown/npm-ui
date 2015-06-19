@@ -1,0 +1,48 @@
+<section class="hpad">
+  <h1 title="name">{{package.name}}</h1>
+  <p>
+    View on <a href="https://www.npmjs.com/package/{{package.name}}" class="npm-red"><b>npm</b></a>
+  </p>
+  <p title="description">{{package.description}}</p>
+  <h3>
+    Version <span title="latest">{{package.latest}}</span>
+    released on <span title="modified">{{package.modified}}</span>
+  </h3>
+  <h3>Author:
+    {{package.author.name}}
+    <a href="mailto:{{package.author.email}}">{{package.author.email}}</a>
+    <a href="{{package.author.url}}">{{package.author.url}}</a>
+  </h3>
+  <ul>
+    <li>License: {{package.license}}</li>
+    <li>Keywords:
+      <ul>
+        <li ng-repeat="keyword in keywords">{{keyword}}</li>
+      </ul>
+    </li>
+    <li>Homepage: <a href="{{package.homepage}}">{{package.homepage}}</a></li>
+    <li>Repository: <a href="{{package.repository}}">{{package.repository}}</a></li>
+    <li>Bugs: <a href="{{package.bugs}}">{{package.bugs}}</a></li>
+    <li>Maintainers:
+      <ul>
+        <li ng-repeat="maintainer in package.maintainers">
+          {{maintainer.name}}
+          <a href="mailto:{{maintainer.email}}">{{maintainer.email}}</a>
+          <a href="{{maintainer.url}}">{{maintainer.url}}</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section class="hpad">
+  <h1>Download History</h1>
+  <div>{{max_downloads}}</div>
+  <div class="downloads">
+    <div ng-repeat="stat in package.stats track by $index" title="{{stat.day}}: {{stat.downloads}}"
+      ng-style="{height: ((200 * stat.downloads / max_downloads) | px:0), width: download_width}"></div>
+  </div>
+  <div ng-repeat="stat in package.stats | limitTo:1" style="float: left">{{stat.day}}</div>
+  <div ng-repeat="stat in package.stats | limitTo:1:-1" style="float: right">{{stat.day}}</div>
+  <div style="clear: both"></div>
+</section>

@@ -1,0 +1,18 @@
+<section class="hpad">
+  <p ng-if="errorUrl" class="error">
+    Failed while requesting "{{errorUrl | decodeURIComponent}}"; you probably need to configure the servers.
+  </p>
+  <form>
+    <label>
+      <div><b>npm-search-server host</b></div>
+      <input ng-model="$storage.searchServer" style="width: 400px">
+    </label>
+    <label>
+      <div><b>npm-history host</b></div>
+      <input ng-model="$storage.historyServer" style="width: 400px">
+    </label>
+  </form>
+  <p ng-if="fromUrl">
+    <a href="{{fromUrl | decodeURIComponent}}">Go back</button>
+  </a>
+</section>

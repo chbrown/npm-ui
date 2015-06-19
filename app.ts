@@ -10,59 +10,113 @@ var app = angular.module('app', [
   'ui.router',
 ]);
 
+app.filter('decodeURIComponent', () => decodeURIComponent);
+
+function px(length: number, fractionDigits = 3) {
+  return length.toFixed(fractionDigits) + 'px';
+}
+app.filter('px', () => px);
+
+function percent(length: number, fractionDigits = 3) {
+  return length.toFixed(fractionDigits) + '%';
+}
+app.filter('percent', () => percent);
+
 app.config(($urlRouterProvider, $stateProvider, $locationProvider) => {
   $urlRouterProvider.otherwise(($injector, $location) => {
-    return '/';
+    return '/packages';
   });
 
   $stateProvider
+  .state('config', {
+    url: '/config?errorUrl&fromUrl',
+    templateUrl: 'templates/config.html',
+    controller: 'configCtrl',
+  })
   .state('packages', {
-    url: '/',
-    templateUrl: 'templates/table.html',
+    url: '/packages',
+    templateUrl: 'templates/packages.html',
     controller: 'packagesTableCtrl',
   })
   .state('package', {
     url: '/packages/{name}',
-    templateUrl: 'templates/detail.html',
+    templateUrl: 'templates/package.html',
     controller: 'packageDetailCtrl'
   });
-
-  // $locationProvider.html5Mode({enabled: false, requireBase: false});
 });
 
-app.service('Package', ($resource, $localStorage) => {
-  var Package = $resource(localStorage['searchServer'] + '/api/packages/:name', {
-    name: '@name',
+app.config($httpProvider => {
+  $httpProvider.interceptors.push(($q, $rootScope) => {
+    return {
+      responseError: res => {
+        $rootScope.$broadcast('httpResponseError', res);
+        return $q.reject(res);
+      },
+    };
   });
-
-  return Package;
 });
 
-app.controller('searchServer', ($scope) => {
-  $scope.searchServer = localStorage['searchServer'] || 'http://localhost:8080';
-  $scope.$watch('searchServer', (searchServer) => localStorage['searchServer'] = searchServer);
+app.run(($rootScope, $state, $timeout) => {
+  $rootScope.$on('httpResponseError', (ev, res) => {
+    var fromUrl = $state.href($state.current);
+    $timeout(() => {
+      $state.go('config', {errorUrl: res.config.url, fromUrl: fromUrl});
+    });
+  });
 });
 
-app.controller('packagesTableCtrl', ($scope, $http, $localStorage, Package) => {
+app.controller('configCtrl', ($scope, $state, $localStorage) => {
+  $scope.errorUrl = $state.params.errorUrl;
+  $scope.fromUrl = $state.params.fromUrl;
+  $scope.$storage = $localStorage.$default({
+    searchServer: 'http://npm-search-server',
+    historyServer: 'http://npm-history',
+  });
+});
+
+app.controller('packagesTableCtrl', ($scope, $http, $state, $localStorage) => {
   $scope.$storage = $localStorage.$default({
     q: 'npm search ui',
+    downloadsFactor: '0.1',
     size: 100,
-    sort: '-averageDownloadsPerDay',
   });
 
   $scope.refresh = () => {
-    $scope.packages = Package.query({
-      q: $scope.$storage.q,
-      size: $scope.$storage.size,
-      sort: $scope.$storage.sort,
+    $http({
+      method: 'GET',
+      url: `${$localStorage.searchServer}/packages`,
+      params: {
+        q: $scope.$storage.q,
+        downloadsFactor: $scope.$storage.downloadsFactor,
+        size: $scope.$storage.size,
+      },
+    }).then(res => {
+      $scope.packages = res.data;
     });
   };
 
-  $scope.$watchCollection(['$storage.q', '$storage.size', '$storage.sort'], () => {
+  $scope.$watchCollection(['$storage.q', '$storage.downloadsFactor', '$storage.size'], () => {
     $scope.refresh();
   });
 });
 
-app.controller('packageDetailCtrl', ($scope, $state, Package) => {
-  $scope.package = Package.get({name: $state.params.name});
+app.controller('packageDetailCtrl', ($scope, $http, $state, $localStorage) => {
+  $http({
+    method: 'GET',
+    url: `${$localStorage.searchServer}/packages/${$state.params.name}`,
+  }).then(res => {
+    $scope.package = res.data;
+
+    // http://npm-history.henrian.com/packages/semver/downloads
+    $http({
+      method: 'GET',
+      url: `${$localStorage.historyServer}/packages/${$state.params.name}/downloads`,
+    }).then(res => {
+      // res.data is an Array of {day: string, downloads: number} objects
+      var stats = res.data.filter(stat => stat.downloads > 0);
+      $scope.download_width = percent(100 / stats.length, 5);
+      $scope.max_downloads = Math.max.apply(null, stats.map(stat => stat.downloads))
+      $scope.package.stats = stats;
+    });
+  });
 });

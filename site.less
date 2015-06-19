@@ -75,6 +75,7 @@ table {
   }
   th, td {
     vertical-align: top;
+    padding-right: 5px;
   }
 }
 .nowrap {
@@ -82,6 +83,17 @@ table {
 }
 .numeric {
   text-align: right;
+}
+.error {
+  color: darkred;
+  font-weight: bold;
+}
+.downloads > div {
+  display: inline-block;
+  background-color: black;
+}
+.npm-red {
+  color: #CB3838;
 }
 
 nav {
@@ -103,7 +115,11 @@ nav {
   }
 }
 
-form.search {
+label {
+  display: block;
+  margin: 1ex 0;
+}
+.hform {
   label {
     display: inline-block;
   }

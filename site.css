@@ -15,10 +15,14 @@ table.striped tbody tr:nth-child(even){background-color:rgba(0,0,0,.05)}
 body{font:12px Arial,sans-serif;background-color:#FEFEFE}
 code{font-family:monospace}
 table th{border-bottom:1px solid rgba(0,0,0,.5)}
-table td,table th{vertical-align:top}
+table td,table th{vertical-align:top;padding-right:5px}
 .nowrap{white-space:nowrap}
 .numeric{text-align:right}
+.error{color:#8b0000;font-weight:700}
+.downloads>div{display:inline-block;background-color:#000}
+.npm-red{color:#CB3838}
 nav{left:0;right:0;padding:0 21px;background:url(img/favicon-16.png) 3px 2px no-repeat #444}
 nav .tab{padding:3px 6px;margin:0 2px;display:inline-block;vertical-align:middle;background-color:#CCC}
 nav .tab.current,nav .tab:hover{background-color:#FEFEFE}
-form.search label{display:inline-block}
+label{display:block;margin:1ex 0}
+.hform label{display:inline-block}
