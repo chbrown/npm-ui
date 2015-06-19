@@ -47,7 +47,7 @@ app.controller('packagesTableCtrl', ($scope, $http, $localStorage, Package) => {
   $scope.$storage = $localStorage.$default({
     q: 'npm search ui',
     size: 100,
-    sort: 'averageDownloadsPerDay',
+    sort: '-averageDownloadsPerDay',
   });
 
   $scope.refresh = () => {

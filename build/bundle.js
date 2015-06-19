@@ -33372,7 +33372,7 @@ app.controller('packagesTableCtrl', function ($scope, $http, $localStorage, Pack
     $scope.$storage = $localStorage.$default({
         q: 'npm search ui',
         size: 100,
-        sort: 'averageDownloadsPerDay',
+        sort: '-averageDownloadsPerDay',
     });
     $scope.refresh = function () {
         $scope.packages = Package.query({
