@@ -1,13 +1,13 @@
 /// <reference path="./type_declarations/index.d.ts" />
 import angular = require('angular');
-import 'angular-resource';
 import 'angular-ui-router';
 import 'ngstorage';
+import 'flow-copy';
 
 var app = angular.module('app', [
-  'ngResource',
-  'ngStorage',
   'ui.router',
+  'ngStorage',
+  'flow-copy',
 ]);
 
 app.filter('decodeURIComponent', () => decodeURIComponent);
@@ -82,6 +82,7 @@ app.controller('packagesTableCtrl', ($scope, $http, $state, $localStorage) => {
   });
 
   $scope.refresh = () => {
+    $scope.search_status = `Searching for "${$scope.$storage.q}"`;
     $http({
       method: 'GET',
       url: `${$localStorage.searchServer}/packages`,
@@ -91,7 +92,11 @@ app.controller('packagesTableCtrl', ($scope, $http, $state, $localStorage) => {
         size: $scope.$storage.size,
       },
     }).then(res => {
+      var content_range = res.headers('Content-Range');
+      var content_range_match = content_range.match(/^packages (\d+)-(\d+)\/(\d+)$/);
+      var total = content_range_match ? content_range_match[3] : 'NA';
       $scope.packages = res.data;
+      $scope.search_status = `Showing ${res.data.length} out of ${total} results`;
     });
   };
 

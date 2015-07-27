@@ -19,9 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "angular": "*",
-    "angular-resource": "*",
     "angular-ui-router": "*",
     "async": "*",
+    "flow-copy": "*",
     "lodash": "*",
     "moment": "*",
     "ngstorage": "gsklee/ngStorage"
@@ -31,7 +31,7 @@
     "typescript": "*",
     "clean-css": "*",
     "less": "*",
-    "watchify": "*"
-  },
-  "scripts": {}
+    "watchify": "*",
+    "watsh": "*"
+  }
 }

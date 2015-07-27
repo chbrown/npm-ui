@@ -1,12 +1,12 @@
 /// <reference path="./type_declarations/index.d.ts" />
 var angular = require('angular');
-require('angular-resource');
 require('angular-ui-router');
 require('ngstorage');
+require('flow-copy');
 var app = angular.module('app', [
-    'ngResource',
-    'ngStorage',
     'ui.router',
+    'ngStorage',
+    'flow-copy',
 ]);
 app.filter('decodeURIComponent', function () { return decodeURIComponent; });
 function px(length, fractionDigits) {
@@ -73,6 +73,7 @@ app.controller('packagesTableCtrl', function ($scope, $http, $state, $localStora
         size: 100,
     });
     $scope.refresh = function () {
+        $scope.search_status = "Searching for \"" + $scope.$storage.q + "\"";
         $http({
             method: 'GET',
             url: $localStorage.searchServer + "/packages",
@@ -82,7 +83,11 @@ app.controller('packagesTableCtrl', function ($scope, $http, $state, $localStora
                 size: $scope.$storage.size,
             },
         }).then(function (res) {
+            var content_range = res.headers('Content-Range');
+            var content_range_match = content_range.match(/^packages (\d+)-(\d+)\/(\d+)$/);
+            var total = content_range_match ? content_range_match[3] : 'NA';
             $scope.packages = res.data;
+            $scope.search_status = "Showing " + res.data.length + " out of " + total + " results";
         });
     };
     $scope.$watchCollection(['$storage.q', '$storage.downloadsFactor', '$storage.size'], function () {

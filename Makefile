@@ -14,7 +14,7 @@ type_declarations/DefinitelyTyped/%:
 	mkdir -p $(@D)
 	curl -s https://raw.githubusercontent.com/chbrown/DefinitelyTyped/master/$* > $@
 
-$(BIN)/tsc $(BIN)/browserify $(BIN)/watchify $(BIN)/lessc $(BIN)/cleancss:
+$(BIN)/tsc $(BIN)/watsh $(BIN)/browserify $(BIN)/watchify $(BIN)/lessc $(BIN)/cleancss:
 	npm install
 
 %.js: %.ts type_declarations $(BIN)/tsc
@@ -27,7 +27,9 @@ build/bundle.js: app.js $(BIN)/browserify
 	mkdir -p $(@D)
 	$(BIN)/browserify $< -o $@
 
-dev: $(BIN)/browserify $(BIN)/watchify
-	($(BIN)/tsc -m commonjs -t ES5 -w *.ts & \
+dev: $(BIN)/browserify $(BIN)/watchify $(BIN)/watsh
+	(\
+   $(BIN)/watsh 'make site.css' site.less & \
+   $(BIN)/tsc -m commonjs -t ES5 -w *.ts & \
    $(BIN)/watchify app.js -o build/bundle.js -v & \
    wait)

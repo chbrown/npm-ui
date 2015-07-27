@@ -14,7 +14,7 @@
     </label>
     <div style="margin: 5px 0">
       <button>Search</button>
-      <span>Showing {{packages.length}} results</span>
+      <span>{{search_status}}</span>
     </div>
   </form>
 </section>
@@ -24,29 +24,25 @@
     <th key="_score">Score</th>
     <th key="name">Name</th>
     <th key="description">Description</th>
-    <th key="authorString" style="width: 16ch">Author</th>
-    <th key="keywords" style="width: 24ch">Keywords</th>
+    <th key="authorString">Author</th>
+    <th key="keywords">Keywords</th>
     <th key="version">Version</th>
     <th title="Last modified">Modified</th>
-    <!-- <th key="github.stargazers">Stargazers</th>
-    <th key="github.subscribers">Subscribers</th>
-    <th key="github.forks">Forks</th> -->
     <th title="Average downloads per day">Downloads</th>
   </thead>
-  <tr ng-repeat="package in packages">
-    <td class="numeric">{{package._score.toFixed(2)}}</td>
-    <td class="nowrap">
-      <a ui-sref="package({name: package.name})">{{package.name}}</a>
-      <a href="https://www.npmjs.com/package/{{package.name}}" class="npm-red" style="font-size: 80%"><b>npm</b></a>
-    </td>
-    <td>{{package.description}}</td>
-    <td>{{package.author.name || package.maintainers[0].name}}</td>
-    <td>{{package.keywords.join(', ') | limitTo:72}}</td>
-    <td class="numeric">{{package.latest}}</td>
-    <td class="nowrap">{{package.modified | date:'yyyy-MM-dd'}}</td>
-    <!-- <td class="numeric">{{package.github.stargazers}}</td>
-    <td class="numeric">{{package.github.subscribers}}</td>
-    <td class="numeric">{{package.github.forks}}</td> -->
-    <td class="numeric">{{package.averageDownloadsPerDay.toFixed(0)}}</td>
-  </tr>
+  <tbody>
+    <tr ng-repeat="package in packages">
+      <td class="numeric">{{package._score.toFixed(2)}}</td>
+      <td>
+        <a ui-sref="package({name: package.name})" class="nowrap">{{package.name}}</a>
+        <a href="https://www.npmjs.com/package/{{package.name}}" class="npm-red" style="font-size: 80%"><b>npm</b></a>
+      </td>
+      <td style="width: 40%">{{package.description}}</td>
+      <td>{{package.author.name || package.maintainers[0].name}}</td>
+      <td style="width: 20%">{{package.keywords.join(', ') | limitTo:72}}</td>
+      <td class="numeric">{{package.latest}}</td>
+      <td class="nowrap">{{package.modified | date:'yyyy-MM-dd'}}</td>
+      <td class="numeric">{{package.averageDownloadsPerDay.toFixed(0)}}</td>
+    </tr>
+  </tbody>
 </table>
