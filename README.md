@@ -32,4 +32,4 @@ Sometimes the rich get richer because they should, and knowing who's who will sa
 
 ## License
 
-Copyright 2014-2015 Christopher Brown. [MIT Licensed](http://opensource.org/licenses/MIT).
+Copyright 2014–2015 Christopher Brown. [MIT Licensed](http://chbrown.github.io/licenses/MIT/#2014-2015).
