@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES5"
+  },
+  "files": [
+    "node_modules/declarations/angularjs/angular.d.ts",
+    "node_modules/declarations/angularjs/angular-resource.d.ts",
+    "node_modules/declarations/lodash/lodash.d.ts",
+    "app.ts"
+  ]
+}

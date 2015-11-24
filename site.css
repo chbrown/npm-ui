@@ -21,7 +21,7 @@ table td,table th{vertical-align:top;padding-right:5px}
 .error{color:#8b0000;font-weight:700}
 .downloads>div{display:inline-block;background-color:#000}
 .npm-red{color:#CB3838}
-nav{position:fixed;left:0;right:0;padding:0 21px;background:url(img/favicon-16.png)3px 2px no-repeat #444}
+nav{position:fixed;left:0;right:0;padding:0 21px;background:url(img/favicon-16.png) 3px 2px no-repeat #444}
 nav .tab{padding:3px 6px;margin:0 2px;display:inline-block;vertical-align:middle;background-color:#CCC}
 nav .tab.current,nav .tab:hover{background-color:#FEFEFE}
 label{display:block;margin:1ex 0}

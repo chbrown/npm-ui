@@ -1,4 +1,3 @@
-/// <reference path="./type_declarations/index.d.ts" />
 var angular = require('angular');
 require('angular-ui-router');
 require('ngstorage');

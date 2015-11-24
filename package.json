@@ -13,7 +13,10 @@
     "ui"
   ],
   "homepage": "http://github.com/chbrown/npm-ui",
-  "repository": "git://github.com/chbrown/npm-ui.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chbrown/npm-ui.git"
+  },
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT",
   "dependencies": {
@@ -23,13 +26,14 @@
     "flow-copy": "*",
     "lodash": "*",
     "moment": "*",
-    "ngstorage": "gsklee/ngStorage"
+    "ngstorage": "*"
   },
   "devDependencies": {
     "browserify": "*",
-    "typescript": "*",
     "clean-css": "*",
+    "declarations": "*",
     "less": "*",
+    "typescript": "*",
     "watchify": "*",
     "watsh": "*"
   }
