@@ -18,8 +18,6 @@ Sometimes the rich get richer because they should, and knowing who's who will sa
   Populated with aggregates of data collected by [npm-history](https://github.com/chbrown/npm-history).
   + Can use GitHub Pages
     * E.g., https://chbrown.github.io/npm-downloads-data/2015/04/averages.json
-  + Or [RawGit](https://rawgit.com/)'s generous MaxCDN proxy, which is way faster
-    * E.g., https://cdn.rawgit.com/chbrown/npm-downloads-data/gh-pages/2015/04/averages.json
 - **npm-search-server**.
   [github](https://github.com/chbrown/npm-search-server). [npm](https://www.npmjs.com/package/npm-search-server). [Docker Hub](https://registry.hub.docker.com/u/chbrown/npm-search-server/).
   + HTTP API
